@@ -1,6 +1,6 @@
 {
-  "name": "rdo11/bambora",
-  "description": "Bambora PHP Library",
+  "name": "rdo11/omnipay-bambora",
+  "description": "Bambora Library for Omnipay",
   "keywords": [
     "bambora",
     "api"
@@ -10,7 +10,7 @@
   "authors": [
     {
       "name": "Russell Ochocki",
-      "homepage": "https://github.com/rdo911/bambora/contributors"
+      "homepage": "https://github.com/rdo911/omnipay-bambora/contributors"
     }
   ],
   "require": {
@@ -21,7 +21,6 @@
     "omnipay/common": "~2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
     "omnipay/common": "~2.0"
   }
 }
