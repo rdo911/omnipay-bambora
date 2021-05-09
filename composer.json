@@ -1,26 +1,21 @@
 {
-  "name": "rdo11/omnipay-bambora",
-  "description": "Bambora Library for Omnipay",
-  "keywords": [
-    "bambora",
-    "api"
-  ],
-  "homepage": "https://web.na.bambora.com",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Russell Ochocki",
-      "homepage": "https://github.com/rdo911/omnipay-bambora/contributors"
+    "name": "rdo911/omnipay-bambora",
+    "description": "Bambora PHP library for Omnipay",
+    "type": "library",
+    "require": {
+        "omnipay/common": "2"
+    },
+    "require-dev": {
+        "omnipay/common": "2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Russell Ochocki",
+            "email": "rdo@provtel.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\bambora\\" : "src/" }
     }
-  ],
-  "require": {
-    "php": ">=5.4.0",
-    "ext-curl": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "omnipay/common": "~2.0"
-  },
-  "require-dev": {
-    "omnipay/common": "~2.0"
-  }
 }
