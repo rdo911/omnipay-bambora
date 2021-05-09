@@ -1,0 +1,27 @@
+{
+  "name": "rdo11/bambora",
+  "description": "Bambora PHP Library",
+  "keywords": [
+    "bambora",
+    "api"
+  ],
+  "homepage": "https://web.na.bambora.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Russell Ochocki",
+      "homepage": "https://github.com/rdo911/bambora/contributors"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "omnipay/common": "~2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "omnipay/common": "~2.0"
+  }
+}
