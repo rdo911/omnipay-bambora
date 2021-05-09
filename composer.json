@@ -3,10 +3,10 @@
     "description": "Bambora PHP library for Omnipay",
     "type": "library",
     "require": {
-        "omnipay/common": "2"
+        "omnipay/common": "~2.0"
     },
     "require-dev": {
-        "omnipay/common": "2"
+        "omnipay/common": "~2.0"
     },
     "license": "MIT",
     "authors": [
