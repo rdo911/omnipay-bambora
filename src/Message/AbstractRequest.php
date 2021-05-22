@@ -1,325 +1,174 @@
-<?php
+<?php namespace Omnipay\bambora\Message;
 
-/**
- * Bambora Abstract Request
- */
-namespace Omnipay\Bambora\Message;
-
-/**
- * Bambora Abstract Request
- *
- * This is the parent class for all Bambora requests.
- */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    /**
-     * Endpoint URL
-     *
-     * @var string URL
-     */
     protected $endpoint = 'https://www.beanstream.com/api/v1';
-    
-    /**
-     * Payment type
-     *
-     * @var string URL
-     */
-    protected $paymentType = 'creditcard';
 
-    /**
-     * Get the gateway endpoint
-     *
-     * @return string
-     */
     public function getEndpoint()
     {
         return $this->endpoint;
     }
 
-    /**
-     * Get the gateway username
-     *
-     * @return string
-     */
+    public function getMerchantId()
+    {
+        return $this->getParameter('merchantId');
+    }
+
+    public function setMerchantId($value)
+    {
+        return $this->setParameter('merchantId', $value);
+    }
+
+    public function getApiPasscode()
+    {
+        return $this->getParameter('apiPasscode');
+    }
+
+    public function setApiPasscode($value)
+    {
+        return $this->setParameter('apiPasscode', $value);
+    }
+
     public function getUsername()
     {
         return $this->getParameter('username');
     }
 
-    /**
-     * Set the gateway username
-     *
-     * @return AbstractRequest
-     */
     public function setUsername($value)
     {
         return $this->setParameter('username', $value);
     }
 
-    /**
-     * Get the gateway password
-     *
-     * @return string
-     */
     public function getPassword()
     {
         return $this->getParameter('password');
     }
 
-    /**
-     * Set the gateway password
-     *
-     * @return AbstractRequest
-     */
     public function setPassword($value)
     {
         return $this->setParameter('password', $value);
     }
 
-    /**
-     * Get the gateway api key
-     *
-     * @return string
-     */
-    public function getApiKey()
+    public function getOrderNumber()
     {
-        return $this->getParameter('apiKey');
+        return $this->getParameter('order_number');
     }
 
-    /**
-     * Set the gateway api key
-     *
-     * @return AbstractRequest
-     */
-    public function setApiKey($value)
+    public function setOrderNumber($value)
     {
-        return $this->setParameter('apiKey', $value);
+        return $this->setParameter('order_number', $value);
     }
 
-    /**
-     * Get the gateway account number
-     *
-     * @return string
-     */
-    public function getAccountNumber()
+    public function getLanguage()
     {
-        return $this->getParameter('accountNumber');
+        return $this->getParameter('language');
     }
 
-    /**
-     * Set the gateway account number
-     *
-     * @return AbstractRequest
-     */
-    public function setAccountNumber($value)
+    public function setLanguage($value)
     {
-        return $this->setParameter('accountNumber', $value);
+        return $this->setParameter('language', $value);
     }
 
-    /**
-     * Get the developer mode
-     *
-     * @return string
-     */
-    public function getDeveloperMode()
+    public function getComments()
     {
-        return false;
+        return $this->getParameter('comments');
     }
 
-    /**
-     * Set the gateway developer mode
-     *
-     * @return AbstractRequest
-     */
-    public function setDeveloperMode($value)
+    public function setComments($value)
     {
-        return $this->setParameter('developerMode', false);
+        return $this->setParameter('comments', $value);
     }
 
-    /**
-     * Get the gateway base data
-     *
-     * @return array
-     */
-    protected function getBaseData()
+    public function getTermUrl()
     {
-        $data = array();
-        $data['GatewayUserName'] = $this->getUsername();
-        $data['GatewayPassword'] = $this->getPassword();
-        $data['PaymentType'] = $this->paymentType;
-
-        if (isset($this->transactionType)) {
-            $data['TransactionType'] = $this->transactionType;
-        }
-        if (isset($this->safeAction)) {
-            $data['SAFE_Action'] = $this->safeAction;
-        }
-        return $data;
+        return $this->getParameter('term_url');
     }
 
-    /**
-     * Get the billing data
-     *
-     * @return array
-     */
-    protected function getBillingData()
+    public function setTermUrl($value)
     {
-        $data = array();
-        if ($card = $this->getCard()) {
-            // Customer billing details
-            $data['FirstName'] = $card->getBillingFirstName();
-            $data['LastName'] = $card->getBillingLastName();
-            $data['Company'] = $card->getBillingCompany();
-            $data['Address1'] = $card->getBillingAddress1();
-            if ($card->getBillingAddress2()) {
-                $data['Address2'] = $card->getBillingAddress2();
-            }
-            
-            $data['City'] = $card->getBillingCity();
-            $data['State'] = $card->getBillingState();
-            $data['Zip'] = $card->getBillingPostcode();
-            $data['Country'] = $card->getBillingCountry();
-            $data['Phone'] = $card->getBillingPhone();
-            $data['Email'] = $card->getEmail();
-        }
-        return $data;
+        return $this->setParameter('term_url', $value);
     }
 
-    /**
-     * Get the shipping data
-     *
-     * @return array
-     */
-    protected function getShippingData()
+    public function getPaymentProfile()
     {
-        $data = array();
-        // Customer shipping details
-        if ($card = $this->getCard()) {
-            // Customer shipping details
-            if ($card->getShippingFirstName()) {
-                $data['ShippingFirstName'] = $card->getShippingFirstName();
-            }
-            if ($card->getShippingLastName()) {
-                $data['ShippingLastName'] = $card->getShippingLastName();
-            }
-            if ($card->getShippingCompany()) {
-                $data['ShippingCompany'] = $card->getShippingCompany();
-            }
-            if ($card->getShippingAddress1()) {
-                $data['ShippingAddress1'] = $card->getShippingAddress1();
-            }
-            if ($card->getShippingAddress2()) {
-                $data['ShippingAddress2'] = $card->getShippingAddress2();
-            }
-            if ($card->getShippingCity()) {
-                $data['ShippingCity'] = $card->getShippingCity();
-            }
-            if ($card->getShippingState()) {
-                $data['ShippingState'] = $card->getShippingState();
-            }
-            if ($card->getShippingPostcode()) {
-                $data['ShippingZip'] = $card->getShippingPostcode();
-            }
-            if ($card->getShippingCountry()) {
-                $data['ShippingCountry'] = $card->getShippingCountry();
-            }
-        }
-        return $data;
+        return $this->getParameter('payment_profile');
     }
 
-    /**
-     * Get the invoice data
-     *
-     * @return array
-     */
-    protected function getInvoiceData()
+    public function setPaymentProfile($value)
     {
-        $data = array();
-        $data['Amount'] = $this->getAmount();
-        if ($this->getDescription()) {
-            $data['OrderDescription'] = $this->getDescription();
-        }
-        return $data;
+        return $this->setParameter('payment_profile', $value);
     }
 
-    /**
-     * Get the authorization data
-     *
-     * @return array
-     */
-    protected function getAuthData()
+    public function getToken()
     {
-        $data = array();
-        if ($this->getTransactionId()) {
-            $data['TransactionID'] = $this->getTransactionId();
-        }
-        return $data;
+        return $this->getParameter('token');
     }
 
-    /**
-     * Send the request
-     *
-     * @return AbstractResponse
-     */
+    public function setToken($value)
+    {
+        return $this->setParameter('token', $value);
+    }
+
+    public function getPaymentMethod()
+    {
+        return $this->getParameter('payment_method');
+    }
+
+    public function setPaymentMethod($value)
+    {
+        return $this->setParameter('payment_method', $value);
+    }
+
+    public function getBilling()
+    {
+        return $this->getParameter('billing');
+    }
+
+    public function setBilling($value)
+    {
+        return $this->setParameter('billing', $value);
+    }
+
+    public function getShipping()
+    {
+        return $this->getParameter('shipping');
+    }
+
+    public function setShipping($value)
+    {
+        return $this->setParameter('shipping', $value);
+    }
+
+    public function getHttpMethod()
+    {
+        return 'POST';
+    }
+
     public function sendData($data)
     {
-        $xml = $this->buildRequest($data);
+        $header = base64_encode($this->getMerchantId() . ':' . $this->getApiPasscode());
         
-        $headers = array(
-            'content-type' => 'text/xml; charset=utf-8',
-            'SOAPAction' => 'https://gateway.agms.com/roxapi/ProcessTransaction'
-        );
-
-        $httpResponse =  $this->httpClient->post($this->getEndpoint(), $headers, $xml)->send();
-        return $this->response = new Response($this, $httpResponse->getBody());
-    }
-
-    /**
-     * Build xml for the gateway
-     *
-     * @return xml string
-     */
-    protected function buildRequest($data)
-    {
-        $xmlHeader = '<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <ProcessTransaction xmlns="https://gateway.agms.com/roxapi/">
-      <objparameters>';
-        $xmlFooter = '</objparameters>
-    </ProcessTransaction>
-  </soap:Body>
-</soap:Envelope>';
-        $xmlBody = '';
-        foreach ($data as $key => $value) {
-            $xmlBody = $xmlBody . "<$key>$value</$key>";
+        if (!empty($data)) {
+            $httpResponse = $this->httpClient->request(
+                $this->getHttpMethod(),
+                $this->getEndpoint(),
+                [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Passcode ' . $header,
+                ],
+                json_encode($data)
+            );
+        } else {
+            $httpResponse = $this->httpClient->request(
+                $this->getHttpMethod(),
+                $this->getEndpoint(),
+                [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Passcode ' . $header,
+                ]
+            );
         }
-        return $xmlHeader . $xmlBody . $xmlFooter;
-    }
 
-    /**
-     * Build xml for the gateway
-     * @return xml string
-     */
-    protected function buildTokenRequest($data, $op)
-    {
-        $xmlHeader = '<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <' . $op . ' xmlns="https://gateway.agms.com/roxapi/">
-      <vParameter>';
-        $xmlFooter = '</vParameter>
-    </' . $op . '>
-  </soap:Body>
-</soap:Envelope>';
-        $xmlBody = '';
-        foreach ($data as $key => $value) {
-            $xmlBody = $xmlBody . "<$key>$value</$key>";
-        }
-        return $xmlHeader . $xmlBody . $xmlFooter;
+        return $this->response = new Response($this, $httpResponse->getBody()->getContents());
     }
 }

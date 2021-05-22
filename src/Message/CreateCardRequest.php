@@ -1,9 +1,9 @@
 <?php
 
-namespace Omnipay\Bambora\Message;
+namespace Omnipay\bambora\Message;
 
 /**
- * Bambora Create Card Request
+ * bambora Create Card Request
  */
 class CreateCardRequest extends AbstractRequest
 {

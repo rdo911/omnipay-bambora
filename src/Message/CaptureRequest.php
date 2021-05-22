@@ -1,34 +1,27 @@
 <?php
 
-namespace Omnipay\Bambora\Message;
+namespace Omnipay\bambora\Message;
 
 /**
- * Bambora Authorize Request
+ * Class CaptureRequest
+ *
+ * The data for this is the same as an authorization except the endpoint references the original transaction id and
+ * complete is set to true on the card.
+ *
+ * @package Omnipay\bambora\Message
  */
-class CaptureRequest extends AbstractRequest
+class CaptureRequest extends AuthorizeRequest
 {
+    /** @var bool Overwrites that same value in the AuthorizeRequest */
+    protected $complete = true;
+
     /**
-     * Transaction type
+     * Create the endpoint for a capture AKA a completion in bambora
      *
      * @return string
      */
-    protected $transactionType = 'capture';
-    
-    /**
-     * Get the request data
-     *
-     * @return array
-     */
-    public function getData()
+    public function getEndpoint()
     {
-        $this->validate('amount', 'transactionId');
-        $data = $this->getBaseData();
-
-        // Add invoice data
-        $data = array_merge($data, $this->getInvoiceData());
-        // Add auth data
-        $data = array_merge($data, $this->getAuthData());
-        
-        return $data;
+        return $this->endpoint . '/payments/' . $this->getTransactionReference() . '/completions';
     }
 }

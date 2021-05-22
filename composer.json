@@ -9,6 +9,14 @@
             "email": "rdo@provtel.com"
         }
     ],
+    "require": {
+        "omnipay/common": "~2.0",
+	"guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0",
+	"guzzlehttp/guzzle": "^6.3"
+    },
     "autoload": {
         "psr-4": { "Omnipay\\bambora\\" : "src/" }
     }

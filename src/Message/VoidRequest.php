@@ -1,32 +1,36 @@
 <?php
 
-namespace Omnipay\Bambora\Message;
+namespace Omnipay\bambora\Message;
 
 /**
- * Bambora Authorize Request
+ * Class VoidRequest
+ *
+ * @package Omnipay\bambora\Message
  */
 class VoidRequest extends AbstractRequest
 {
-    /**
-     * Transaction type
-     *
-     * @return string
-     */
-    protected $transactionType = 'void';
 
     /**
-     * Get the request data
+     * Get the data necessary for a Void
      *
      * @return array
      */
     public function getData()
     {
-        $this->validate('transactionId');
-        $data = $this->getBaseData();
+        $this->validate('amount', 'transactionReference');
 
-        // Add auth data
-        $data = array_merge($data, $this->getAuthData());
-        
-        return $data;
+        return array(
+            'amount'=>$this->getAmount()
+        );
+    }
+
+    /**
+     * Get the endpoint for a Void. This is overwriting the method so we can add the transaction reference dynamically
+     *
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint . '/payments/' . $this->getTransactionReference() . '/void';
     }
 }

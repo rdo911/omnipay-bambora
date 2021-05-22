@@ -1,34 +1,35 @@
 <?php
 
-namespace Omnipay\Bambora\Message;
+namespace Omnipay\bambora\Message;
 
 /**
- * Bambora Authorize Request
+ * Class RefundRequest
+ *
+ * @package Omnipay\bambora\Message
  */
 class RefundRequest extends AbstractRequest
 {
-    /**
-     * Transaction type
-     *
-     * @return string
-     */
-    protected $transactionType = 'refund';
 
     /**
-     * Get the request data
-     *
-     * @return array
+     * Get the data for a refund
      */
     public function getData()
     {
-        $this->validate('amount', 'transactionId');
-        $data = $this->getBaseData();
+        $this->validate('amount', 'transactionReference');
 
-        // Add invoice data
-        $data = array_merge($data, $this->getInvoiceData());
-        // Add auth data
-        $data = array_merge($data, $this->getAuthData());
-        
-        return $data;
+        return array(
+            'amount'=>$this->getAmount(),
+            'order_number'=>$this->getOrderNumber()
+        );
+    }
+
+    /**
+     * Get the endpoint for a Refund. This is overwriting the method so we can add the transaction reference dynamically
+     *
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint . '/payments/' . $this->getTransactionReference() . '/returns';
     }
 }

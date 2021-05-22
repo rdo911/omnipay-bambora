@@ -1,9 +1,9 @@
 <?php
 
-namespace Omnipay\Bambora\Message;
+namespace Omnipay\bambora\Message;
 
 /**
- * Bambora Delete Card Request
+ * bambora Delete Card Request
  */
 class DeleteCardRequest extends AbstractRequest
 {
@@ -12,7 +12,7 @@ class DeleteCardRequest extends AbstractRequest
      *
      * @var string URL
      */
-    protected $endpoint = 'https://www.beanstream.com/api/v1';
+    protected $endpoint = 'https://gateway.agms.com/roxapi/AGMS_SAFE_API.asmx';
     
     /**
      * Safe Action
