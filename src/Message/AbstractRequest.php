@@ -1,4 +1,9 @@
-<?php namespace Omnipay\bambora\Message;
+<?php
+
+namespace Omnipay\bambora\Message;
+
+use Omnipay\Common\Message\ResponseInterface;
+use Guzzlehhtp\Psr7;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -146,7 +151,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function sendData($data)
     {
+
         $header = base64_encode($this->getMerchantId() . ':' . $this->getApiPasscode());
+
+echo "<script>console.log('What?');</script>";
         
         if (!empty($data)) {
             $httpResponse = $this->httpClient->request(
@@ -170,5 +178,31 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $this->response = new Response($this, $httpResponse->getBody()->getContents());
+
+
+/*
+        $header = base64_encode($this->getMerchantId() . ':' . $this->getApiPasscode());
+
+        $httpResponse = $this->httpClient->post(
+		$this->getEndpoint(),
+	);
+
+        $headers = array_merge(
+	    array('Content-Type' => 'application/json'),
+	    array('Authorization' => 'Passcode ' . $header)
+        );
+
+        $httpRequest  = $this->httpClient->post($data, $headers);
+        $httpResponse = $httpRequest->send();
+
+        $this->response = new Response($this, $httpResponse->json());
+
+        if ($httpResponse->hasHeader('Request-Id')) {
+            $this->response->setRequestId((string) $httpResponse->getHeader('Request-Id'));
+        }
+
+        return $this->response;
+*/
+
     }
 }
