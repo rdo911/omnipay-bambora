@@ -3,7 +3,8 @@
 namespace Omnipay\bambora\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Guzzlehhtp\Psr7;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Client;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -154,10 +155,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $header = base64_encode($this->getMerchantId() . ':' . $this->getApiPasscode());
 
-echo "<script>console.log('What?');</script>";
-        
-        if (!empty($data)) {
-            $httpResponse = $this->httpClient->request(
+$data = array_replace($data, array('payment_method' => 'card'));
+//dd($data);
+$request = new \GuzzleHttp\Psr7\Request(
                 $this->getHttpMethod(),
                 $this->getEndpoint(),
                 [
@@ -165,19 +165,26 @@ echo "<script>console.log('What?');</script>";
                     'Authorization' => 'Passcode ' . $header,
                 ],
                 json_encode($data)
-            );
-        } else {
-            $httpResponse = $this->httpClient->request(
-                $this->getHttpMethod(),
-                $this->getEndpoint(),
-                [
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Passcode ' . $header,
-                ]
-            );
-        }
+);
 
-        return $this->response = new Response($this, $httpResponse->getBody()->getContents());
+// dd($request);
+$client = new \GuzzleHttp\Client();
+//$response = $client->send($request)->getBody()->getContents();
+//$response = $client->send($request)->getBody();
+$response = $client->send($request);
+//dd(get_class($client));
+dd($request);
+//dd($response);
+//dd($data);
+
+/*
+        return $this->response = new Response($response, $response->getBody()->getContents());
+        return $this->response = $response->getBody()->getContents();
+        return $this->response = new $response->getBody()->getContents();
+        return $this->response = new $response;
+*/
+
+        return $this->response = $response->getBody()->getContents();
 
 
 /*
